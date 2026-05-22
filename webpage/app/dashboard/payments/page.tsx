@@ -8,8 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { DashboardSidebar } from '@/components/dashboard-sidebar'
-import { DashboardTopBar } from '@/components/dashboard-topbar'
 import { getAmenityByName } from '@/lib/amenity-catalog'
 import {
   getStoredPlan,
@@ -107,12 +105,8 @@ export default function PaymentsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
-      <DashboardSidebar />
-      <div className="ml-64">
-        <DashboardTopBar title="Payments" />
-        <div className="px-8 pb-12 pt-24">
-          <div className="mx-auto max-w-4xl space-y-10">
+    <>
+      <div className="mx-auto max-w-4xl space-y-10">
             <div className="rounded-xl border border-[#E5E7EB] bg-white p-8 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
@@ -195,9 +189,7 @@ export default function PaymentsPage() {
                 </table>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+            </div>
 
       <Dialog open={upgradeOpen} onOpenChange={setUpgradeOpen}>
         <DialogContent className="max-h-[90vh] overflow-y-auto border-[#E5E7EB] bg-white sm:max-w-lg">
@@ -230,6 +222,6 @@ export default function PaymentsPage() {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   )
 }

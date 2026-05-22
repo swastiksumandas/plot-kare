@@ -11,8 +11,6 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { CheckCircle2, Home, Plus } from 'lucide-react'
-import { DashboardSidebar } from '@/components/dashboard-sidebar'
-import { DashboardTopBar } from '@/components/dashboard-topbar'
 import { Plot3DViewerModal } from '@/components/dashboard/plot-3d-viewer-modal'
 import { AddPlotModal } from '@/components/dashboard/add-plot-modal'
 import { loadPlots, type StoredPlot } from '@/lib/plotkare-storage'
@@ -152,7 +150,7 @@ export default function DashboardPage() {
   if (onboardingCheck) {
     return (
       <motion.div
-        className="flex min-h-screen items-center justify-center bg-[#F9FAFB] font-sans text-[#6B7280]"
+        className="flex min-h-[400px] items-center justify-center font-sans text-[#6B7280]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -162,13 +160,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
-      <DashboardSidebar />
-
-      <div className="ml-64">
-        <DashboardTopBar title="My Plots" />
-
-        <div className="px-8 pb-12 pt-24">
+    <>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -321,8 +313,6 @@ export default function DashboardPage() {
               </motion.div>
             </>
           )}
-        </div>
-      </div>
 
       <Plot3DViewerModal
         open={plot3dOpen}
@@ -339,6 +329,6 @@ export default function DashboardPage() {
         onClose={() => setAddPlotOpen(false)}
         onSaved={() => void refreshPlots()}
       />
-    </div>
+    </>
   )
 }

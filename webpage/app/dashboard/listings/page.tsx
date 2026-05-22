@@ -9,8 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { DashboardSidebar } from '@/components/dashboard-sidebar'
-import { DashboardTopBar } from '@/components/dashboard-topbar'
 import {
   DEFAULT_PUBLIC_LISTINGS,
   filterPublicListings,
@@ -127,100 +125,94 @@ export default function ListingsPage() {
   const visible = filterPublicListings(listings, filter)
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
-      <DashboardSidebar />
-      <div className="ml-64">
-        <DashboardTopBar title="Property Listings" />
-        <div className="px-8 pb-12 pt-24">
-          <div className="mx-auto max-w-6xl">
-            <h1 className="font-serif text-3xl font-bold text-[#1F2937] md:text-4xl">
-              Current Plot Listings in Visakhapatnam
-            </h1>
-            <p className="mt-3 font-sans text-[#6B7280]">Verified available plots</p>
+    <>
+      <div className="mx-auto max-w-6xl">
+        <h1 className="font-serif text-3xl font-bold text-[#1F2937] md:text-4xl">
+          Current Plot Listings in Visakhapatnam
+        </h1>
+        <p className="mt-3 font-sans text-[#6B7280]">Verified available plots</p>
 
-            <div className="mt-8 flex flex-wrap gap-2">
-              {FILTERS.map((pill) => (
-                <button
-                  key={pill}
-                  type="button"
-                  onClick={() => setFilter(pill)}
-                  className={`rounded-full border px-4 py-2 font-sans text-sm transition-colors ${
-                    filter === pill
-                      ? 'border-[#C0392B] bg-[#FFF1F2] text-[#C0392B]'
-                      : 'border-[#E5E7EB] bg-white text-[#6B7280] shadow-[0_1px_3px_rgba(0,0,0,0.08)] hover:border-[#D1D5DB]'
-                  }`}
-                >
-                  {pill}
-                </button>
-              ))}
-            </div>
+        <div className="mt-8 flex flex-wrap gap-2">
+          {FILTERS.map((pill) => (
+            <button
+              key={pill}
+              type="button"
+              onClick={() => setFilter(pill)}
+              className={`rounded-full border px-4 py-2 font-sans text-sm transition-colors ${
+                filter === pill
+                  ? 'border-[#C0392B] bg-[#FFF1F2] text-[#C0392B]'
+                  : 'border-[#E5E7EB] bg-white text-[#6B7280] shadow-[0_1px_3px_rgba(0,0,0,0.08)] hover:border-[#D1D5DB]'
+              }`}
+            >
+              {pill}
+            </button>
+          ))}
+        </div>
 
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-              {visible.map((plot) => (
-                <motion.div
-                  key={plot.id}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="overflow-hidden rounded-xl border border-[#E5E7EB] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
-                >
-                  <div className="relative h-[200px] w-full">
-                    <Image src={withBasePath(plot.imageUrl)} alt="" fill className="object-cover" sizes="280px" />
-                  </div>
-                  <div className="space-y-3 p-4">
-                    <p className="font-mono text-xs text-[#C0392B]">{plot.plotNumber}</p>
-                    <h2 className="font-serif text-lg font-bold text-[#1F2937]">{plot.location}</h2>
-                    <p className="font-sans text-sm text-[#6B7280]">
-                      {plot.sizeLabel} · {plot.facing} facing
-                      {plot.cornerPlot ? ' · Corner' : ''}
-                    </p>
-                    {plot.premium && (
-                      <span className="inline-block rounded-full bg-[#FFF1F2] px-2 py-0.5 font-sans text-[10px] font-semibold uppercase text-[#C0392B]">
-                        Premium
-                      </span>
-                    )}
-                    <p className="font-mono text-sm font-bold uppercase tracking-wide text-[#F59E0B]">
-                      Consult for pricing
-                    </p>
-                    <div className="flex flex-col gap-2 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setInquiryOk(false)
-                          setInquiryPlot(plot)
-                        }}
-                        className="w-full rounded-lg bg-[#C0392B] py-2.5 font-sans text-sm font-semibold text-white hover:opacity-95"
-                      >
-                        Inquire Now
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setInterestOk(false)
-                          setInterestPlot(plot)
-                        }}
-                        className="w-full rounded-lg border border-[#C0392B] py-2.5 font-sans text-sm font-semibold text-[#C0392B] hover:bg-[#FFF1F2]"
-                      >
-                        Register Interest
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {visible.map((plot) => (
+            <motion.div
+              key={plot.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="overflow-hidden rounded-xl border border-[#E5E7EB] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
+            >
+              <div className="relative h-[200px] w-full">
+                <Image src={withBasePath(plot.imageUrl)} alt="" fill className="object-cover" sizes="280px" />
+              </div>
+              <div className="space-y-3 p-4">
+                <p className="font-mono text-xs text-[#C0392B]">{plot.plotNumber}</p>
+                <h2 className="font-serif text-lg font-bold text-[#1F2937]">{plot.location}</h2>
+                <p className="font-sans text-sm text-[#6B7280]">
+                  {plot.sizeLabel} · {plot.facing} facing
+                  {plot.cornerPlot ? ' · Corner' : ''}
+                </p>
+                {plot.premium && (
+                  <span className="inline-block rounded-full bg-[#FFF1F2] px-2 py-0.5 font-sans text-[10px] font-semibold uppercase text-[#C0392B]">
+                    Premium
+                  </span>
+                )}
+                <p className="font-mono text-sm font-bold uppercase tracking-wide text-[#F59E0B]">
+                  Consult for pricing
+                </p>
+                <div className="flex flex-col gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setInquiryOk(false)
+                      setInquiryPlot(plot)
+                    }}
+                    className="w-full rounded-lg bg-[#C0392B] py-2.5 font-sans text-sm font-semibold text-white hover:opacity-95"
+                  >
+                    Inquire Now
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setInterestOk(false)
+                      setInterestPlot(plot)
+                    }}
+                    className="w-full rounded-lg border border-[#C0392B] py-2.5 font-sans text-sm font-semibold text-[#C0392B] hover:bg-[#FFF1F2]"
+                  >
+                    Register Interest
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
-            <div className="mt-12 rounded-xl border border-[#E5E7EB] border-l-[4px] border-l-[#C0392B] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
-              <p className="font-sans text-sm text-[#6B7280]">
-                Want your plot listed? Contact us during beta for a guided listing consultation.
-              </p>
-              <button
-                type="button"
-                onClick={() => setContactOpen(true)}
-                className="mt-4 rounded-lg border-2 border-[#C0392B] bg-transparent px-6 py-2.5 font-sans text-sm font-semibold text-[#C0392B] hover:bg-[#FFF1F2]"
-              >
-                Contact Us
-              </button>
-            </div>
-          </div>
+        <div className="mt-12 rounded-xl border border-[#E5E7EB] border-l-[4px] border-l-[#C0392B] bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
+          <p className="font-sans text-sm text-[#6B7280]">
+            Want your plot listed? Contact us during beta for a guided listing consultation.
+          </p>
+          <button
+            type="button"
+            onClick={() => setContactOpen(true)}
+            className="mt-4 rounded-lg border-2 border-[#C0392B] bg-transparent px-6 py-2.5 font-sans text-sm font-semibold text-[#C0392B] hover:bg-[#FFF1F2]"
+          >
+            Contact Us
+          </button>
         </div>
       </div>
 
@@ -334,6 +326,6 @@ export default function ListingsPage() {
           </AnimatePresence>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   )
 }

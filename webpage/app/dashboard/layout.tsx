@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { DashboardProviders } from './dashboard-providers'
+import { DashboardPageLayout } from '@/components/dashboard-layout-client'
 
 export const metadata: Metadata = {
   title: 'Owner dashboard — PlotKare',
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 }
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  return <DashboardProviders>{children}</DashboardProviders>
+  return (
+    <DashboardProviders>
+      <DashboardPageLayout>{children}</DashboardPageLayout>
+    </DashboardProviders>
+  )
 }

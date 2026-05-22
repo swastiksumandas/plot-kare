@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { Upload, Trash2, FileText, Loader2 } from 'lucide-react'
-import { DashboardSidebar } from '@/components/dashboard-sidebar'
-import { DashboardTopBar } from '@/components/dashboard-topbar'
 import { createSupabaseBrowserClient } from '@/lib/supabase/browser'
 
 type Document = {
@@ -157,97 +155,79 @@ export default function DocumentsPage() {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-[#F9FAFB]">
-        <DashboardSidebar />
-        <div className="ml-64">
-          <DashboardTopBar title="Document Vault" />
-          <div className="px-8 pb-12 pt-24">
-            <p className="font-sans text-[#6B7280]">Loading documents...</p>
-          </div>
-        </div>
-      </div>
-    )
+    return <p className="font-sans text-[#6B7280]">Loading documents...</p>
   }
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB]">
-      <DashboardSidebar />
-      <div className="ml-64">
-        <DashboardTopBar title="Document Vault" />
-        <div className="px-8 pb-12 pt-24">
-          <div className="mx-auto max-w-4xl space-y-6">
-            <div className="rounded-xl border border-[#E5E7EB] bg-white p-8 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="font-serif text-xl font-bold text-[#1F2937]">Upload Documents</h2>
-                  <p className="mt-1 font-sans text-sm text-[#6B7280]">Store legal documents, property records, and inspection files securely.</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => fileRef.current?.click()}
-                  disabled={uploading}
-                  className="flex items-center gap-2 rounded-lg bg-[#C0392B] px-4 py-2.5 font-sans text-sm font-semibold text-white hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {uploading ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Uploading...
-                    </>
-                  ) : (
-                    <>
-                      <Upload className="h-4 w-4" />
-                      Upload Document
-                    </>
-                  )}
-                </button>
-              </div>
-              <input
-                ref={fileRef}
-                type="file"
-                accept=".pdf,image/jpeg,image/png,image/webp"
-                className="hidden"
-                onChange={handleFileUpload}
-              />
-            </div>
-
-            <div className="rounded-xl border border-[#E5E7EB] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
-              {documents.length === 0 ? (
-                <div className="p-8 text-center">
-                  <FileText className="mx-auto h-12 w-12 text-[#D1D5DB]" />
-                  <p className="mt-4 font-sans text-[#6B7280]">No documents yet. Upload documents to organize and secure your important files.</p>
-                </div>
-              ) : (
-                <div className="divide-y divide-[#E5E7EB]">
-                  {documents.map((doc) => (
-                    <div key={doc.id} className="flex items-center justify-between p-4 hover:bg-[#F9FAFB]">
-                      <div className="flex-1">
-                        <p className="font-sans font-medium text-[#1F2937]">{doc.title}</p>
-                        <p className="mt-1 font-mono text-xs text-[#6B7280]">
-                          {formatBytes(doc.size_bytes)} • {new Date(doc.created_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => downloadDocument(doc)}
-                          className="rounded-lg border border-[#E5E7EB] px-3 py-2 font-sans text-xs font-medium text-[#1F2937] hover:bg-[#F9FAFB]"
-                        >
-                          Download
-                        </button>
-                        <button
-                          onClick={() => deleteDocument(doc)}
-                          className="rounded-lg border border-[#E5E7EB] px-3 py-2 font-sans text-xs font-medium text-[#DC2626] hover:bg-[#FEE2E2]"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div className="rounded-xl border border-[#E5E7EB] bg-white p-8 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-serif text-xl font-bold text-[#1F2937]">Upload Documents</h2>
+            <p className="mt-1 font-sans text-sm text-[#6B7280]">Store legal documents, property records, and inspection files securely.</p>
           </div>
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            disabled={uploading}
+            className="flex items-center gap-2 rounded-lg bg-[#C0392B] px-4 py-2.5 font-sans text-sm font-semibold text-white hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {uploading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              <>
+                <Upload className="h-4 w-4" />
+                Upload Document
+              </>
+            )}
+          </button>
         </div>
+        <input
+          ref={fileRef}
+          type="file"
+          accept=".pdf,image/jpeg,image/png,image/webp"
+          className="hidden"
+          onChange={handleFileUpload}
+        />
+      </div>
+
+      <div className="rounded-xl border border-[#E5E7EB] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
+        {documents.length === 0 ? (
+          <div className="p-8 text-center">
+            <FileText className="mx-auto h-12 w-12 text-[#D1D5DB]" />
+            <p className="mt-4 font-sans text-[#6B7280]">No documents yet. Upload documents to organize and secure your important files.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-[#E5E7EB]">
+            {documents.map((doc) => (
+              <div key={doc.id} className="flex items-center justify-between p-4 hover:bg-[#F9FAFB]">
+                <div className="flex-1">
+                  <p className="font-sans font-medium text-[#1F2937]">{doc.title}</p>
+                  <p className="mt-1 font-mono text-xs text-[#6B7280]">
+                    {formatBytes(doc.size_bytes)} • {new Date(doc.created_at).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => downloadDocument(doc)}
+                    className="rounded-lg border border-[#E5E7EB] px-3 py-2 font-sans text-xs font-medium text-[#1F2937] hover:bg-[#F9FAFB]"
+                  >
+                    Download
+                  </button>
+                  <button
+                    onClick={() => deleteDocument(doc)}
+                    className="rounded-lg border border-[#E5E7EB] px-3 py-2 font-sans text-xs font-medium text-[#DC2626] hover:bg-[#FEE2E2]"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
