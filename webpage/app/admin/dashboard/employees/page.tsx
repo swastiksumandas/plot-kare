@@ -1,4 +1,5 @@
 import Link from 'next/link'
+export const dynamic = 'force-dynamic'
 import { updateEmployeeTask } from './actions'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { ADMIN_EMPLOYEE_ROLES, ADMIN_TASK_PRIORITIES, ADMIN_TASK_STATUSES } from '@/lib/admin/status'

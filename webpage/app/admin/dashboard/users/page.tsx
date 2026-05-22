@@ -1,4 +1,5 @@
 import { assignUserRole, updateAccountStatus } from './actions'
+export const dynamic = 'force-dynamic'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { ADMIN_ACCOUNT_STATUSES, ADMIN_EMPLOYEE_ROLES, ADMIN_USER_ROLES } from '@/lib/admin/status'
 

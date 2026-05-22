@@ -1,4 +1,5 @@
 import Link from 'next/link'
+export const dynamic = 'force-dynamic'
 import { updateVerificationStatus } from './actions'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { ADMIN_TASK_PRIORITIES } from '@/lib/admin/status'

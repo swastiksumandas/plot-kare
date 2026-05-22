@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = 'force-dynamic'
 
 import { Suspense } from 'react'
 import { AuthLoginPage } from '@/components/auth-login-page'

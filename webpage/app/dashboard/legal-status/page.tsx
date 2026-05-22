@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = 'force-dynamic'
 
 import { CheckCircle2, AlertCircle } from 'lucide-react'
 
