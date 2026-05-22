@@ -1,0 +1,8 @@
+webpage/node_modules/
+webpage/.next/
+webpage/out/
+*.log
+.DS_Store
+.env
+.env*.local
+Thumbs.db

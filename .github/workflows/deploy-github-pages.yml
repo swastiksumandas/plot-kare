@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: webpage/package-lock.json
+
+      - name: Install and build
+        working-directory: webpage
+        env:
+          NEXT_PUBLIC_BASE_PATH: /PLotKAre-temp1
+          NEXT_PUBLIC_SITE_URL: https://amritpatro.github.io
+        run: |
+          npm ci
+          npm run build:github
+
+      # Next.js with basePath emits either out/index.html or out/<basePath>/index.html
+      # GitHub Pages serves the *artifact root* as the site root for project pages.
+      - name: Resolve Pages artifact directory
+        id: pages_root
+        run: |
+          set -e
+          BASE="PLotKAre-temp1"
+          if [ -f webpage/out/index.html ]; then
+            echo "dir=webpage/out" >> "$GITHUB_OUTPUT"
+            echo "Using webpage/out (flat export)"
+          elif [ -f "webpage/out/${BASE}/index.html" ]; then
+            echo "dir=webpage/out/${BASE}" >> "$GITHUB_OUTPUT"
+            echo "Using webpage/out/${BASE} (basePath nested export)"
+          else
+            echo "Could not find index.html under webpage/out:"
+            find webpage/out -maxdepth 3 -type f -name 'index.html' 2>/dev/null || true
+            ls -la webpage/out || true
+            exit 1
+          fi
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.pages_root.outputs.dir }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
